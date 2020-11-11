@@ -70,3 +70,98 @@ Valid interface values. Used with the *User Data Relay Input* frame.
 - `SERIAL (0)`
 - `BLE (1)`
 - `MICROPYTHON (2)`
+
+#### `DeliveryStatus`
+
+Used with the *Transmit Status* frame.
+
+## Frames
+
+#### Local AT Command Request
+
+The value property is optional.
+
+```txt
+{
+  type: FrameType.LOCAL_AT_COMMAND_REQUEST,
+  id: Number,
+  command: String,
+  [value: Uint8Array]
+}
+````
+
+#### BLE Unlock Request/Response
+
+The frame payload depends on the step value.
+
+```txt
+{
+  type: FrameType.BLE_UNLOCK_REQUEST | FrameType.BLE_UNLOCK_RESPONSE,
+  step: 1,
+  clientEphemeral: Uint8Array(128)
+}
+````
+
+```txt
+{
+  type: FrameType.BLE_UNLOCK_REQUEST | FrameType.BLE_UNLOCK_RESPONSE,
+  step: 2,
+  salt: Uint8Array(4),
+  serverEphemeral: Uint8Array(128)
+}
+````
+
+```txt
+{
+  type: FrameType.BLE_UNLOCK_REQUEST | FrameType.BLE_UNLOCK_RESPONSE,
+  step: 3,
+  clientSessionProof: Uint8Array(32)
+}
+````
+
+```txt
+{
+  type: FrameType.BLE_UNLOCK_REQUEST | FrameType.BLE_UNLOCK_RESPONSE,
+  step: 4,
+  serverSessionProof: Uint8Array(32),
+  txNonce: Uint8Array(12),
+  rxNonce: Uint8Array(12)
+}
+````
+
+#### User Data Relay Input
+
+```txt
+{
+  type: FrameType.USER_DATA_RELAY_INPUT,
+  id: Number,
+  destination: Interface,
+  data: Uint8Array
+}
+````
+
+#### Transmit Status
+
+Get a string representation of the status by calling `DeliveryStatus.getName(status)`.
+
+```txt
+{
+  type: FrameType.TRANSMIT_STATUS,
+  id: Number,
+  status: DeliveryStatus
+}
+````
+
+#### Local AT Command Response
+
+The value property is optional. Get a string representation of the status by calling `ATCommandStatus.getName(status)`.
+
+```txt
+{
+  type: FrameType.LOCAL_AT_COMMAND_RESPONSE,
+  id: Number,
+  command: String,
+  status: ATCommandStatus,
+  [value: Uint8Array]
+}
+````
