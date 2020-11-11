@@ -1,0 +1,29 @@
+{
+  "name": "xbee-frame",
+  "version": "0.0.0",
+  "description": "XBee API frame encoder and decoder",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard --verbose && tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kapetan/xbee-frame.git"
+  },
+  "keywords": [
+    "xbee",
+    "api",
+    "frame",
+    "ble",
+    "bluetooth"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kapetan/xbee-frame/issues"
+  },
+  "homepage": "https://github.com/kapetan/xbee-frame#readme",
+  "devDependencies": {
+    "standard": "^16.0.1",
+    "tape": "^5.0.1"
+  }
+}
