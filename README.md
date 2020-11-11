@@ -142,7 +142,7 @@ The frame payload depends on the step value.
 
 #### Transmit Status
 
-Get a string representation of the status by calling `DeliveryStatus.getName(status)`.
+Get the string description of the status by calling `DeliveryStatus.getName(status)`.
 
 ```txt
 {
@@ -154,7 +154,7 @@ Get a string representation of the status by calling `DeliveryStatus.getName(sta
 
 #### Local AT Command Response
 
-The value property is optional. Get a string representation of the status by calling `ATCommandStatus.getName(status)`.
+The value property is optional. Get the string description of the status by calling `ATCommandStatus.getName(status)`.
 
 ```txt
 {
