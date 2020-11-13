@@ -25,6 +25,15 @@ const Interface = {
   getName: getName
 }
 
+const StepError = {
+  UNABLE_TO_OFFER_B: 0x80,
+  INCORRECT_PAYLOAD_LENGTH: 0x81,
+  BAD_PROOF_OF_KEY: 0x82,
+  RESOURCE_ALLOCATION_ERROR: 0x83,
+  STEP_OUT_OF_SEQUENCE: 0x84,
+  getName: getName
+}
+
 const DeliveryStatus = {
   SUCCESS: 0x00,
   NO_ACK_RECEIVED: 0x01,
@@ -221,9 +230,8 @@ function encodingLength (obj) {
         case 2: return 138
         case 3: return 38
         case 4: return 62
+        default: return 6 // Assume error condition
       }
-
-      throw new RangeError('unlock step out of bounds')
     case FrameType.USER_DATA_RELAY_INPUT:
       return 7 + obj.data.length
     case FrameType.TRANSMIT_STATUS:
@@ -236,6 +244,7 @@ function encodingLength (obj) {
 exports.FrameType = FrameType
 exports.ATCommandStatus = ATCommandStatus
 exports.Interface = Interface
+exports.StepError = StepError
 exports.DeliveryStatus = DeliveryStatus
 exports.encode = encode
 exports.decode = decode

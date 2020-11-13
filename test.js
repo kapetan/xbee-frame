@@ -377,3 +377,31 @@ tape('transmit status', t => {
     t.end()
   })
 })
+
+;[
+  [xbee.FrameType.BLE_UNLOCK_REQUEST, 0x2c, 0x52],
+  [xbee.FrameType.BLE_UNLOCK_RESPONSE, 0xac, 0xd2]
+].forEach(([type, expectedType, expectedChecksum]) => {
+  tape(`ble unlock type ${type} step error`, t => {
+    const frame = xbee.encode({
+      type: type,
+      step: xbee.StepError.INCORRECT_PAYLOAD_LENGTH
+    })
+
+    t.equal(xbee.encode.bytes, 6)
+    t.deepEqual(frame, new Uint8Array([
+      0x7e, 0x00, 0x02, expectedType,
+      0x81, expectedChecksum
+    ]))
+
+    const obj = xbee.decode(frame)
+
+    t.equal(xbee.decode.bytes, 6)
+    t.deepEqual(obj, {
+      type: type,
+      step: xbee.StepError.INCORRECT_PAYLOAD_LENGTH
+    })
+
+    t.end()
+  })
+})
