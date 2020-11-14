@@ -53,6 +53,7 @@ Valid frame types.
 - `LOCAL_AT_COMMAND_RESPONSE (0x88)`
 - `TRANSMIT_STATUS (0x89)`
 - `BLE_UNLOCK_RESPONSE (0xac)`
+- `USER_DATA_RELAY_OUTPUT (0xad)`
 
 #### `ATCommandStatus`
 
@@ -70,6 +71,16 @@ Valid interface values. Used with the *User Data Relay Input* frame.
 - `SERIAL (0)`
 - `BLE (1)`
 - `MICROPYTHON (2)`
+
+#### `StepError`
+
+Valid BLE unlock request/response step errors (step value above `0x80` indicates an error).
+
+- `UNABLE_TO_OFFER_B (0x80)`
+- `INCORRECT_PAYLOAD_LENGTH (0x81)`
+- `BAD_PROOF_OF_KEY (0x82)`
+- `RESOURCE_ALLOCATION_ERROR (0x83)`
+- `STEP_OUT_OF_SEQUENCE (0x84)`
 
 #### `DeliveryStatus`
 
@@ -163,5 +174,15 @@ The value property is optional. Get the string description of the status by call
   command: String,
   status: ATCommandStatus,
   [value: Uint8Array]
+}
+````
+
+#### User Data Relay Output
+
+```txt
+{
+  type: FrameType.USER_DATA_RELAY_OUTPUT,
+  source: Interface,
+  data: Uint8Array
 }
 ````
