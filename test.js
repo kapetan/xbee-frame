@@ -405,3 +405,28 @@ tape('transmit status', t => {
     t.end()
   })
 })
+
+tape('user data relay output', t => {
+  const frame = xbee.encode({
+    type: xbee.FrameType.USER_DATA_RELAY_OUTPUT,
+    source: xbee.Interface.MICROPYTHON,
+    data: new Uint8Array([0xa1, 0xb2])
+  })
+
+  t.equal(xbee.encode.bytes, 8)
+  t.deepEqual(frame, new Uint8Array([
+    0x7e, 0x00, 0x04, 0xad,
+    0x02, 0xa1, 0xb2, 0xfd
+  ]))
+
+  const obj = xbee.decode(frame)
+
+  t.equal(xbee.decode.bytes, 8)
+  t.deepEqual(obj, {
+    type: xbee.FrameType.USER_DATA_RELAY_OUTPUT,
+    source: xbee.Interface.MICROPYTHON,
+    data: new Uint8Array([0xa1, 0xb2])
+  })
+
+  t.end()
+})

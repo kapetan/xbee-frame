@@ -7,6 +7,7 @@ const FrameType = {
   LOCAL_AT_COMMAND_RESPONSE: 0x88,
   TRANSMIT_STATUS: 0x89,
   BLE_UNLOCK_RESPONSE: 0xac,
+  USER_DATA_RELAY_OUTPUT: 0xad,
   getName: getName
 }
 
@@ -147,6 +148,11 @@ function encode (obj, buffer, offset) {
       if (obj.value) buffer.set(obj.value, offset + 8)
 
       break
+    case FrameType.USER_DATA_RELAY_OUTPUT:
+      buffer[offset + 4] = obj.source
+      buffer.set(obj.data, offset + 5)
+
+      break
   }
 
   buffer[offset + length - 1] = checksum(buffer, offset + 3, length - 1)
@@ -213,6 +219,13 @@ function decode (buffer, start, end) {
       obj.command = String.fromCodePoint(buffer[start + 5], buffer[start + 6])
       obj.status = buffer[start + 7]
       if (length > 5) obj.value = buffer.slice(start + 8, start + length + 3)
+
+      break
+    case FrameType.USER_DATA_RELAY_OUTPUT:
+      obj.source = buffer[start + 4]
+      obj.data = buffer.slice(start + 5, start + length + 3)
+
+      break
   }
 
   decode.bytes = end - start
@@ -238,6 +251,8 @@ function encodingLength (obj) {
       return 7
     case FrameType.LOCAL_AT_COMMAND_RESPONSE:
       return 9 + (obj.value ? obj.value.length : 0)
+    case FrameType.USER_DATA_RELAY_OUTPUT:
+      return 6 + obj.data.length
   }
 }
 
